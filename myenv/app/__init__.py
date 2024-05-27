@@ -13,7 +13,9 @@ def create_app():
     app= Flask(__name__)
     
     
-    app.config.from_object('Developmentconfig')
+    app.config.from_object('DevelopmentConfig')
+    data_uri =app.config.get('SQLALCHEMY_DATABASE_URI')
+    app.config['SQLALCHEMY_DATABASE_URI'] = data_uri
     # CORS(app)
     
     # app.config['MYSQL_HOST']= 'localhost'
