@@ -1,0 +1,1 @@
+print(app.config.from_object('Developmentconfig'))

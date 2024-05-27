@@ -1,4 +1,6 @@
 from flask import Blueprint
+from flask_sqlalchemy import SQLAlchemy
+
 
 
 
@@ -26,3 +28,4 @@ example_route =Blueprint('example_route',__name__)
 @example_route.route('/hello',methods=['Get'])
 def heelo():
     return "heelo world"
+

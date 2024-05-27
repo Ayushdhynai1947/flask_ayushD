@@ -13,7 +13,9 @@ from app import create_app
 app =create_app()
 
 
-
+app.route('/hi',methods=['Get'])
+def hi():
+    
 
 
 if __name__=='__main__':

@@ -1,6 +1,7 @@
 from flask import Flask
 from app.routes.example_route import example_route
 from flask_cors import CORS
+from app.utils.config import DevelopmentConfig  # Adjust the import path as needed
 
 # Create an instance  of the 
 import mysql.connector
@@ -10,7 +11,10 @@ import mysql.connector
 
 def create_app():
     app= Flask(__name__)
-    CORS(app)
+    
+    
+    app.config.from_object('Developmentconfig')
+    # CORS(app)
     
     # app.config['MYSQL_HOST']= 'localhost'
     #app.config['MYSQL_USER'] ='root'
