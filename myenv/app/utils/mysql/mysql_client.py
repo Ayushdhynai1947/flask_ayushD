@@ -16,4 +16,5 @@ class MySQLClient:
         
         
         
-    def user_getall_model(self)
+    def user_getall_model(self):
+        mysql.connector
