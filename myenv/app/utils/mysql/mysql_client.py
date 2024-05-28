@@ -1,4 +1,5 @@
 import mysql.connector
+from flask.views import MethodView
 
 
 
@@ -6,7 +7,7 @@ import mysql.connector
 
 
 
-class MySQLClient:
+class MySQLClient9(MethodView):
     
     def __init__(self) -> None:
         try:
