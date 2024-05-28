@@ -13,11 +13,12 @@ def create_app():
     app= Flask(__name__)
     
     
-    env =os.getenv('FLASK_ENV','deelopment')
-    app.config.from_object('DevelopmentConfig')
-    data_uri =app.config.get('SQLALCHEMY_DATABASE_URI')
-    app.config['SQLALCHEMY_DATABASE_URI'] = data_uri
+    # env =os.getenv('FLASK_ENV','deelopment')
+    # app.config.from_object('DevelopmentConfig')
+    # data_uri =app.config.get('SQLALCHEMY_DATABASE_URI')
+    # app.config['SQLALCHEMY_DATABASE_URI'] = data_uri
     # CORS(app)
+    
     
     # app.config['MYSQL_HOST']= 'localhost'
     #app.config['MYSQL_USER'] ='root'

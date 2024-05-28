@@ -1,33 +1,95 @@
 import json
 
-class Config(object):
-    DEBUG = False
-    TESTING = False
-    SECRET_KEY = "dfusdhfdfhdsfiudshf"
-    DB_NAME = ""
-    DB_USERNAME = ""
-    DB_PASSWORD = ""
-    DB_HOST = ""
-    SQLALCHEMY_DATABASE_URI = ""
+dev_conf ={
+    "Database":{
+        "type": "sql",
+        "username": "root",
+        "password": "ayush",
+        "host": "localhost",
+        "port": "",
+        "name": "salaries"
+        
+    }
+    
+}
 
-class ProductionConfig(Config):
-    pass
 
-class DevelopmentConfig(Config):
-    DEBUG = True
-    DB_NAME = 'employee'
-    DB_USERNAME = 'root'
-    DB_PASSWORD = 'ayush'
-    DB_HOST = 'localhost'
-    SQLALCHEMY_DATABASE_URI = f'mysql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}'
 
-class TestingConfig(Config):
-    TESTING = True
-    DB_NAME = "Development-DB"
-    DB_USERNAME = ""
-    DB_PASSWORD = ""
-    DB_HOST = 'localhost'
-    SQLALCHEMY_DATABASE_URI = f'sqlite:///{DB_NAME}.db'
+class ConfigClient:
+    def __init__(self,env) -> None:
+        if env =='dev':
+            self.config =dev_conf
+        else:
+            pass
+        
+    
+    
+    def get_value(self,section,key):
+        if section in self.config and key in self.config[section]:
+            return self.config[section][key]
+        else:
+            return None
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# class Config(object):
+#     DEBUG = False
+#     TESTING = False
+#     SECRET_KEY = "dfusdhfdfhdsfiudshf"
+#     DB_NAME = ""
+#     DB_USERNAME = ""
+#     DB_PASSWORD = ""
+#     DB_HOST = ""
+#     SQLALCHEMY_DATABASE_URI = ""
+
+# class ProductionConfig(Config):
+#     pass
+
+# class DevelopmentConfig(Config):
+#     DEBUG = True
+#     DB_NAME = 'employee'
+#     DB_USERNAME = 'root'
+#     DB_PASSWORD = 'ayush'
+#     DB_HOST = 'localhost'
+#     SQLALCHEMY_DATABASE_URI = f'mysql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}'
+
+# class TestingConfig(Config):
+#     TESTING = True
+#     DB_NAME = "Development-DB"
+#     DB_USERNAME = ""
+#     DB_PASSWORD = ""
+#     DB_HOST = 'localhost'
+#     SQLALCHEMY_DATABASE_URI = f'sqlite:///{DB_NAME}.db'
 
 
 

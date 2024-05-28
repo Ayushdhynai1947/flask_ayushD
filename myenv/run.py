@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_restful import Api
 
 from app import create_app
 
@@ -13,8 +12,8 @@ from app import create_app
 app =create_app()
 
 
-app.route('/hi',methods=['Get'])
-def hi():
+# app.route('/hi',methods=['Get'])
+# def hi():
     
 
 
