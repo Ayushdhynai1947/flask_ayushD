@@ -3,6 +3,7 @@ from app.routes.example_route import example_route
 from flask_cors import CORS
 from app.utils.config import DevelopmentConfig  # Adjust the import path as needed
 import os
+from app.utils.mysql import MySQLClient
 # Create an instance  of the 
 import mysql.connector
 

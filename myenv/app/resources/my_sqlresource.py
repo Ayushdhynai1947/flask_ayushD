@@ -12,9 +12,10 @@ class MySQLResource(Resource):
         mysql_uri = config.get_value("Datbase","uri")
         mysql_client=MySQLClient(mysql_uri)
         
-        #updation neend
+        #updation neended
+        update =mysql_client.get()
         
-        return {'message':" "}
+        return {'all details are ':update}
         
         #any operation can run 
         
