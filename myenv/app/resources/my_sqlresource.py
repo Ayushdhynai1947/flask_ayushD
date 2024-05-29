@@ -9,8 +9,7 @@ class MySQLResource(Resource):
     
     def get(self):
         config =ConfigClient(env='dev')
-        mysql_uri = config.get_value("Datbase","uri")
-        mysql_client=MySQLClient(mysql_uri)
+        mysql_client=MySQLClient()
         
         #updation neended
         update =mysql_client.get()

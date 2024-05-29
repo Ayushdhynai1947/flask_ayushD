@@ -37,6 +37,9 @@ mysql_resourcse =MySQLClient()
 
 
 
+
+
+
 #Define a route within the Bluepint
 example_route.add_url_rule('/mysql',view_func=mysql_resourcse.as_view('mysql'))
 

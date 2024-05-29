@@ -1,34 +1,63 @@
-import json
-
-dev_conf ={
-    "Database":{
-        "type": "sql",
-        "username": "root",
-        "password": "ayush",
-        "host": "localhost",
-        "port": "",
-        "name": "salaries"
-        
-    }
-    
-}
-
-
-
 class ConfigClient:
-    def __init__(self,env) -> None:
-        if env =='dev':
-            self.config =dev_conf
+    def _init_(self, env):
+        if env == 'prod':
+            self.database = 'salaries'
+            self.user = 'root'
+            self.password = 'ayush'
+            self.host = 'localhost'
+        elif env == 'dev':
+            self.database = 'dev_database'
+            self.user = 'dev_username'
+            self.password = 'dev_password'
+            self.host = 'dev_host'
         else:
-            pass
+            raise ValueError("Invalid environment. Use 'prod' or 'dev'.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import json
+
+# dev_conf ={
+#     "Database":{
+#         "type": "sql",
+#         "username": "root",
+#         "password": "ayush",
+#         "host": "localhost",
+#         "port": "",
+#         "name": "salaries",
+#         "SQLALCHEMY_DATABASE_URI":"sqlite://root:ayush@localhost/employees"
+        
+#     }
+    
+# }
+
+
+
+# class ConfigClient:
+#     def __init__(self,env) -> None:
+#         if env =='dev':
+#             self.config =dev_conf
+#         else:
+#             pass
         
     
     
-    def get_value(self,section,key):
-        if section in self.config and key in self.config[section]:
-            return self.config[section][key]
-        else:
-            return None
+#     def get_value(self,section,key):
+#         if section in self.config and key in self.config[section]:
+#             return self.config[section][key]
+#         else:
+#             return None
 
 
 
