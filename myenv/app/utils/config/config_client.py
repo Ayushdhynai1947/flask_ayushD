@@ -1,17 +1,71 @@
+import json
+
+dev_conf = {
+    "Database": {
+        "uri" : "mysql://root:ayush@localhost/employees"
+    },
+    "ChatGpt" : {
+        "api-key" : ""
+    }
+}
+
+prod_conf = {
+    "Database": {
+        "uri" : ""
+    }
+}
+
+
 class ConfigClient:
-    def _init_(self, env):
-        if env == 'prod':
-            self.database = 'salaries'
-            self.user = 'root'
-            self.password = 'ayush'
-            self.host = 'localhost'
-        elif env == 'dev':
-            self.database = 'dev_database'
-            self.user = 'dev_username'
-            self.password = 'dev_password'
-            self.host = 'dev_host'
+    def __init__(self, env):
+        if env == 'dev':
+            self.config = dev_conf
         else:
-            raise ValueError("Invalid environment. Use 'prod' or 'dev'.")
+            self.config = prod_conf
+
+    def get_value(self, section, key):
+        if section in self.config and key in self.config[section]:
+            return self.config[section][key]
+        else:
+            return None
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# class ConfigClient:
+#     def _init_(self, env):
+#         if env == 'prod':
+#             self.database = 'salaries'
+#             self.user = 'root'
+#             self.password = 'ayush'
+#             self.host = 'localhost'
+#         elif env == 'dev':
+#             self.database = 'dev_database'
+#             self.user = 'dev_username'
+#             self.password = 'dev_password'
+#             self.host = 'dev_host'
+#         else:
+#             raise ValueError("Invalid environment. Use 'prod' or 'dev'.")
 
 
 

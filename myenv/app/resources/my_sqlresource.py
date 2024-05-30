@@ -1,6 +1,11 @@
-from flask_restful import Resource
+
+from flask import Blueprint
+from flask_restful import Resource,Api
+from flask import request
+
 from app.utils.mysql.mysql_client import MySQLClient
 from app.utils.config.config_client import ConfigClient
+
 
 
 
@@ -9,17 +14,23 @@ class MySQLResource(Resource):
     
     def get(self):
         config =ConfigClient(env='dev')
-        mysql_client=MySQLClient()
+        mysql_uri = config.get_value("Database","uri")
+        mysql_client=MySQLClient(mysql_uri)
         
         #updation neended
-        update =mysql_client.get()
+        # update_staus = mysql_client.update(table='product',column_values={'end_date':'31-Dec-24'},filter_condition=f"where oem = 'Zebra'")
+        # update =mysql_client.make_connection()
+        # update =mysql_client.put()
+        update =mysql_client.post()
         
-        return {'all details are ':update}
+        # return {'all details are ':update}
+        return {'all details are ':str(update)}
+    
         
         #any operation can run 
         
-    # def post(self):
-    #     return {'message':' '}
+    def post(self):
+        return {'message':' Post request received '}
 
 
 

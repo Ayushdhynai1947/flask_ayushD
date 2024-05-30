@@ -1,1 +1,1 @@
-print(app.config.from_object('Developmentconfig'))
+app.register_blueprint(example_route, url_prefix='/api')
