@@ -9,3 +9,4 @@ class CsvResouce(Resource):
         config =ConfigClient(env="dev")
         mysql_uri =config.get_value("Database","uri")
         mysql_client =MySQLClient(mysql_uri)
+        
