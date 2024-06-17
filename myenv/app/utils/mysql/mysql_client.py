@@ -13,13 +13,13 @@ from datetime import date
 class MySQLClient():
     
     
-    def __init__(self,mysql_uri) -> None:
-        self.mysql_uri =mysql_uri
-        self.db  =self.make_connection()
-        if self.db:
-            self.cursor=self.db.cursor()
-        else:
-            self.cursor=None
+    # def __init__(self,mysql_uri) -> None:
+    #     self.mysql_uri =mysql_uri
+    #     self.db  =self.make_connection()
+    #     if self.db:
+    #         self.cursor=self.db.cursor()
+    #     else:
+    #         self.cursor=None
         # self.db =db_conn if self.make_connection() else None
         # self.cursor =self.db.cursor()
     
@@ -71,51 +71,51 @@ class MySQLClient():
             
             
 #########################################################################################################
-    # def __init__(self,mysql_uri) -> None:
-    #     self.mysql_uri =mysql_uri
-    #     try:
-    #         # mysql_uri = "mysql://myuser:mypassword@localhost:3306/mydatabase"
-    #         self.con=mysql.connector.connect(host="localhost",user="root",password="ayush",database="employees")
-    #         self.cur= self.con.cursor(dictionary=True)
-    #         print("Connection Scccesful")
+    def __init__(self,mysql_uri) -> None:
+        self.mysql_uri =mysql_uri
+        try:
+            # mysql_uri = "mysql://myuser:mypassword@localhost:3306/mydatabase"
+            self.con=mysql.connector.connect(host="localhost",user="root",password="ayush",database="employees")
+            self.cur= self.con.cursor(dictionary=True)
+            print("Connection Scccesful")
         
-    #     except:
-    #         print("error genertaion")
+        except:
+            print("error genertaion")
             
             
-    # def get(self):
-    #     self.cur.execute("SELECT * FROM  employees")
-    #     result =self.cur.fetchall()
-    #     # print(result)
-    #     if len(result)>0:
-    #         return json.dumps(result,default=self.json_serial)
-    #     else:
-    #         return "not data found"
+    def get(self):
+        self.cur.execute("SELECT * FROM  employees")
+        result =self.cur.fetchall()
+        # print(result)
+        if len(result)>0:
+            return json.dumps(result,default=self.json_serial)
+        else:
+            return "not data found"
     
-    # @staticmethod
-    # def json_serial(obj):
-    #     """JSON serializer for objects not serializable by default json code"""
-    #     if isinstance(obj, date):
-    #         return obj.isoformat()
-    #     raise TypeError(f"Type {type(obj)} not serializable")
+    @staticmethod
+    def json_serial(obj):
+        """JSON serializer for objects not serializable by default json code"""
+        if isinstance(obj, date):
+            return obj.isoformat()
+        raise TypeError(f"Type {type(obj)} not serializable")
         
         
-    # def post(self,data):
-    #     self.cur.execute(f"SELECT  * FROM employees ")
+    def post(self,data):
+        self.cur.execute(f"SELECT  * FROM employees ")
     
     
-    # def put(self,data):
-    #     self.cur.execute(f"INSERT INTO  employee(empno,birth_date,first_name,last_name,gender,hire_date) VALUES('{data['empno']}','{data['birth_date']}','{data['first_name']}','{data['last_name']}',{data['gender']},{data['hire_date']})")
-    #     return "User Create Successful"
+    def put(self,data):
+        self.cur.execute(f"INSERT INTO  employee(empno,birth_date,first_name,last_name,gender,hire_date) VALUES('{data['empno']}','{data['birth_date']}','{data['first_name']}','{data['last_name']}',{data['gender']},{data['hire_date']})")
+        return "User Create Successful"
         
         
         
-    # def update(self,data):
-    #     self.cur.execute(f'UPDATE user SET empno ='{data['empno']}', birth_date='{data['birth_date']}',first_name='{data['first_name']}',last_name='{data['last_name']}',gender='{data['first_name']}',hire_date='{data['first_name']} 'WHERE  id ={data['id']}')
-    #     if self.cur.rowcount>0:
-    #         return "user update suceesfully"
-    #     else:
-    #         return "Nothing to update"
+    def update(self,data):
+        self.cur.execute(f'UPDATE user SET empno ='{data['empno']}', birth_date='{data['birth_date']}',first_name='{data['first_name']}',last_name='{data['last_name']}',gender='{data['first_name']}',hire_date='{data['first_name']} 'WHERE  id ={data['id']}')
+        if self.cur.rowcount>0:
+            return "user update suceesfully"
+        else:
+            return "Nothing to update"
         
         
         

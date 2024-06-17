@@ -9,7 +9,7 @@ class CsvClient:
         
     def read(self):
         try :
-            with open("file open ",'r') as file :
+            with open("named.csv",'r') as file :
             reader = csv.DictReader(file)
             data =[]
             for row in reader:

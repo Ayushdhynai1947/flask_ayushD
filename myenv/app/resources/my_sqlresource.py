@@ -21,7 +21,7 @@ class MySQLResource(Resource):
         # update_staus = mysql_client.update(table='product',column_values={'end_date':'31-Dec-24'},filter_condition=f"where oem = 'Zebra'")
         # update =mysql_client.make_connection()
         # update =mysql_client.put()
-        update =mysql_client.post()
+        update =mysql_client.get()
         
         # return {'all details are ':update}
         return {'all details are ':str(update)}
