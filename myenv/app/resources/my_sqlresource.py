@@ -17,11 +17,13 @@ class MySQLResource(Resource):
         mysql_uri = config.get_value("Database","uri")
         mysql_client=MySQLClient(mysql_uri)
         
+        
+        
         #updation neended
         # update_staus = mysql_client.update(table='product',column_values={'end_date':'31-Dec-24'},filter_condition=f"where oem = 'Zebra'")
-        # update =mysql_client.make_connection()
+        update =mysql_client.make_connection()
         # update =mysql_client.put()
-        update =mysql_client.get()
+        # update = mysql_client.update(table='produt',column_value={'end_date':'31-Dec-24'},filter_condition=f"where oem = 'Zebra'")
         
         # return {'all details are ':update}
         return {'all details are ':str(update)}
