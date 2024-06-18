@@ -14,8 +14,9 @@ class CsvResouce(Resource):
         for row in issue_date:
             print(f"Execuitng for{row}")
             # insert_status =mysql_client.insert(table_name='product',column_value =row)
-            insert_status =mysql_client.insert(table_name='product',column_values=row)
-        return {'message':issue_date}
+            insert_status =mysql_client.select(columns='email')
+        # return {'message':row}
+        return {'message':insert_status}
         
     def post(self):
         return {'message':'post request received'}

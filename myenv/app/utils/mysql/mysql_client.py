@@ -15,13 +15,11 @@ class MySQLClient():
     def __init__(self,mysql_uri) -> None:
         self.mysql_uri = mysql_uri
         db_conn = self.make_connection()
-        self.db = db_conn if self.make_connection else None
-        self.cursor = self.db.cursor()
-
-        # if self.db:
-        #     self.cursor=self.db.cursor()
-        # else:
-        #     self.cursor=None
+        self.db = db_conn
+        if self.db:
+            self.cursor=self.db.cursor(dictionary = True)
+        else:
+            self.cursor=None
         # self.db =db_conn if self.make_connection() else None
         # self.cursor =self.db.cursor()
     
@@ -29,15 +27,15 @@ class MySQLClient():
     def make_connection(self):
         db = None
         try :
-           config = {
-                'user': self.mysql_uri.split('://')[1].split(':')[0],
-                'password': self.mysql_uri.split(':')[2].split('@')[0],
-                'host': self.mysql_uri.split('@')[1].split('/')[0],
-                'database': self.mysql_uri.split('/')[3]
-            }
+        #    config = {
+        #         'user': self.mysql_uri.split('://')[1].split(':')[0],
+        #         'password': self.mysql_uri.split(':')[2].split('@')[0],
+        #         'host': self.mysql_uri.split('@')[1].split('/')[0],
+        #         'database': self.mysql_uri.split('/')[3]
+        #     }
         #    print([config['host'],config['user'],config['password'],config['database']])
-           db = mysql.connector.connect(**config)
-           self.cursor = self.db.cursor(dictionary= True)
+        #    db = mysql.connector.connect(**config)
+           db = mysql.connector.connect(host="localhost",user="root",password="ayush",database="employees")
           
            print("connection succesfuly form")
         except Exception as e:
@@ -45,52 +43,153 @@ class MySQLClient():
             print(error_message)
             raise ConnectionError(error_message)
         return db
-   
-   
-
     
-    def select(self,table_name,columns=None,filter_condition=None):
-        # update_staus = mysql_client.select(table='product',column_values={'end_date':'31-Dec-24'},filter_condition=f"where first_name ='teddy')
-        results =[]
-        select_status =None
+    
+    
+    
+    def select(self, table_name, columns=None, filter_condition=None):
+        results = []
+        select_status = None
         try:
             if self.db is not None:
                 if columns is None:
-                    query =f"SELECT * FROM {table_name}"
+                    query = f"SELECT * FROM {table_name}"
                 else:
-                    columns_str=','.join(columns)
-                    query =f"SELECT {columns_str} FROM {table_name}"
+                    columns_str = ','.join(columns)
+                    query = f"SELECT {columns_str} FROM {table_name}"
                 if filter_condition:
-                    query +=f"WHERE {filter_condition}"
+                    query += f" WHERE {filter_condition}"
                 self.cursor.execute(query)
-                rows =self.cursor.fetchall()
-                results = [dict(zip(self.cursor.column_name,rows)) for row in rows]
-                select_status = dict(status="success", results = results)
-                    # return json.dumps(result)
+                rows = self.cursor.fetchall()
+                results = [dict(row) for row in rows]
+                select_status = dict(status="success", results=results)
             else:
-                error_message =f"Please make the connection first"
+                error_message = "Please make the connection first"
                 raise ConnectionError(error_message)
-            
         except Exception as e:
-            error_message = f"Failed to execute"
+            error_message = f"Failed to execute select: {e}"
+            print(error_message)
             raise ConnectionError(error_message)
         return select_status
     
     
-    def update (self,table,column_value,filter_condition =None)
-    update_status = None
-    try:
-        set_clause = ",".join({f"{column}= %s" for column in column_value})
-        value  = list(column_values.value())
-        query =f"update {table} SET {set_clause}"
-        if filter_condtion :
-            query += f"{filter_condtion}"
-        self.cursor.execute(query,values)
-        self.db.commit()
-        affected_rows = self.cursor.rowcount
-        update_status = dict(status ="success", affected_rows=affected_rows)
-    except Exception as e:
-        error_message = f"Error :{e} "
+    def update (self, table, column_values,filter_condition =None):
+        update_status = None
+        try:
+            set_clause = ",".join({f"{column}= %s" for column in column_values.key()})
+            values  = list(column_values.value())
+            query =f"update {table} SET {set_clause}"
+            if filter_condition :
+                query += f"{filter_condition}"
+            self.cursor.execute(query,values)
+            self.db.commit()
+            affected_rows = self.cursor.rowcount
+            update_status = dict(status ="success", affected_rows=affected_rows)
+        except Exception as e:
+            error_message = f"Error :{e} while updating {table} for {column_values} with filter condition {filter_condition} "
+            raise Exception(error_message)
+        return update_status
+    
+    
+    
+    
+    def insert(self , table_name ,column_values,filter_condition= None):
+        insert_status = None
+        
+        
+        try:
+            columns = ", ".join(column_values.keys())
+            placeholders = ", ".join(["%s"] * len(column_values))
+            query = f"INSERT INTO{table_name} ({columns}) VAlUES ({placeholders})"
+            data = tuple(column_values.values())
+            self.cursor.execute(query,data)
+            self.db.commit()
+            last_row_id = self.cursor.lastrowid
+            insert_status = dict(status ="success",aftected_row=self.cursor.rowcount,last_row_id =last_row_id)
+        except Exception as e:
+            error_message = f"Error:{e} while inserting {table_name}, filter_condition:{filter_condition}"
+            
+        return insert_status
+    
+    
+    def delete(self,table,filter_condition= None):
+        delete_status = None
+        
+        try :
+            query = f"DELETE FROM {table}"
+            if filter_condition:
+                query += f"{filter_condition}"
+            
+            self.cursor.execute(query)
+            self.db.commit()
+            affected_rows =self.cursor.rowcount
+            delete_status = dict(status ="succes",affected_rows=affected_rows)
+            return delete_status
+        
+        except Exception as e:
+            error_message = f"Error:{e} while deleting {table} with filter_condition {filter_condition}"
+            
+        return delete_status
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
+   
+
+    
+    # def select(self,table_name,columns=None,filter_condition=None):
+    #     # update_staus = mysql_client.select(table='product',column_values={'end_date':'31-Dec-24'},filter_condition=f"where first_name ='teddy')
+    #     results =[]
+    #     select_status =None
+    #     try:
+    #         if self.db is not None:
+    #             if columns is None:
+    #                 query =f"SELECT * FROM {table_name}"
+    #             else:
+    #                 columns_str=','.join(columns)
+    #                 query =f"SELECT {columns_str} FROM {table_name}"
+    #             if filter_condition:
+    #                 query +=f" WHERE {filter_condition}"
+    #             self.cursor.execute(query)
+    #             rows =self.cursor.fetchall()
+    #             results = [dict(zip(self.cursor.column_name,rows)) for row in rows]
+    #             select_status = dict(status="success", results = results)
+    #                 # return json.dumps(result)
+    #         else:
+    #             error_message =f"Please make the connection first"
+    #             raise ConnectionError(error_message)
+            
+    #     except Exception as e:
+    #         error_message = f"Failed to execute"
+    #         print(error_message)
+            
+    #         raise ConnectionError(error_message)
+    #     return select_status
+    
+    
+   
+    
+    
+    # def insert():
+    #     pass
             
         
             
